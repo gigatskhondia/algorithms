@@ -1,2 +1,2 @@
 # algorithms
-The repository shall contain main CS and DS algorithms
+The repository contains some CS and ML algorithms
