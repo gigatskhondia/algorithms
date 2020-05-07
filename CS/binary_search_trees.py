@@ -1,8 +1,8 @@
 class Node:
     def __init__(self, key=None, left=None, right=None):
-        self.key=key
-        self.left=left
-        self.right=right
+        self.key = key
+        self.left = left
+        self.right = right
 
 
 def tree_insert(root, node):  # O(h), h - height of a tree; for balanced tree - lg(n)
@@ -39,21 +39,21 @@ def pre_order_tree_walk(x):
     return
 
 
-def postorder_tree_walk(x):
+def post_order_tree_walk(x):
     if x is not None:
-        postorder_tree_walk(x.left)
-        postorder_tree_walk(x.right)
+        post_order_tree_walk(x.left)
+        post_order_tree_walk(x.right)
         print(x.key)
     return
 
 
-def tree_search(x,k):
+def tree_search(x, k):
     if x is None or k == x.key:
         return x
     if k < x.key:
-        return tree_search(x.left,k)
+        return tree_search(x.left, k)
     else:
-        return tree_search(x.right,k)
+        return tree_search(x.right, k)
 
 
 def tree_minimum(x):
@@ -80,7 +80,7 @@ def tree_parent(root, key):
         parent, node = (node, node.left) if key < node.key else (node, node.right)
 
 
-def tree_successor(root,x):
+def tree_successor(root, x):
     if x.right is not None:
         return tree_minimum(x.right)
     y, _ = tree_parent(root, x.key)
@@ -142,9 +142,8 @@ def iter_pre_order_tree_walk(root):
     if root is None:
         return
 
-        # create an empty stack and push root to it
-    nodeStack = []
-    nodeStack.append(root)
+    # create an empty stack and push root to it
+    node_stack = [root]
 
     #  Pop all items one by one. Do following for every popped item
     #   a) print it
@@ -152,15 +151,15 @@ def iter_pre_order_tree_walk(root):
     #   c) push its left child
     # Note that right child is pushed first so that left
     # is processed first */
-    while len(nodeStack) > 0:
+    while len(node_stack) > 0:
 
         # Pop the top item from stack and print it
-        node = nodeStack.pop()
+        node = node_stack.pop()
         print(node.key)
 
         # Push right and left children of the popped node
         # to stack
         if node.right is not None:
-            nodeStack.append(node.right)
+            node_stack.append(node.right)
         if node.left is not None:
-            nodeStack.append(node.left)
+            node_stack.append(node.left)
