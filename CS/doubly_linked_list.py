@@ -11,21 +11,21 @@ class DoublyLinkedList:
         self.head = None
 
     def insert(self, x):
-        NewNode = Node(x)
-        NewNode.next = self.head
+        new_node = Node(x)
+        new_node.next = self.head
         if self.head is not None:
-            self.head.prev = NewNode
-        self.head = NewNode
-        NewNode.prev = None
+            self.head.prev = new_node
+        self.head = new_node
+        new_node.prev = None
 
     def delete(self, x):
-        DelNode = self.search(x)
-        if DelNode.prev is not None:
-            DelNode.prev.next = DelNode.next
+        del_node = self.search(x)
+        if del_node.prev is not None:
+            del_node.prev.next = del_node.next
         else:
             self.head = x.next
-        if DelNode.next is not None:
-            DelNode.next.prev = DelNode.prev
+        if del_node.next is not None:
+            del_node.next.prev = del_node.prev
 
     def search(self, k):
         x = self.head
