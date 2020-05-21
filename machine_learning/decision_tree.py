@@ -1,7 +1,6 @@
 """Code to accompany Machine Learning Recipes #8.
 We'll write a Decision Tree Classifier, in pure Python.
 """
-
 # For Python 2 / 3 compatability
 from __future__ import print_function
 
