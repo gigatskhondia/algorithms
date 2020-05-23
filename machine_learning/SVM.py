@@ -46,14 +46,14 @@ class CustomSVM(object):
         self.train_loss = None
         self.val_loss = None
 
-    def fit(self, X_train, Y_train, X_val, Y_val, verbose=False):  # arrays: X; Y =-1,1
+    def fit(self, x_train, y_train, x_val, y_val, verbose=False):  # arrays: X; Y =-1,1
 
-        if len(set(Y_train)) != 2 or len(set(Y_val)) != 2:
+        if len(set(y_train)) != 2 or len(set(y_val)) != 2:
             raise ValueError("Number of classes in Y is not equal 2!")
 
-        X_train = add_bias_feature(X_train)
-        X_val = add_bias_feature(X_val)
-        self._w = np.random.normal(loc=0, scale=0.05, size=X_train.shape[1])
+        x_train = add_bias_feature(x_train)
+        x_val = add_bias_feature(x_val)
+        self._w = np.random.normal(loc=0, scale=0.05, size=x_train.shape[1])
         self.history_w.append(self._w)
         train_errors = []
         val_errors = []
@@ -65,23 +65,22 @@ class CustomSVM(object):
             val_err = 0
             tr_loss = 0
             val_loss = 0
-            for i, x in enumerate(X_train):
-                margin = Y_train[i] * np.dot(self._w, X_train[i])
+            for i, x in enumerate(x_train):
+                margin = y_train[i] * np.dot(self._w, x_train[i])
                 if margin >= 1:  # классифицируем верно
                     self._w = self._w - self._etha * self._alpha * self._w / self._epochs
-                    tr_loss += self.soft_margin_loss(X_train[i], Y_train[i])
+                    tr_loss += self.soft_margin_loss(x_train[i], y_train[i])
                 else:  # классифицируем неверно или попадаем на полосу разделения при 0<m<1
                     self._w = self._w + \
-                              self._etha * (Y_train[i] * X_train[i] - self._alpha * self._w / self._epochs)
+                              self._etha * (y_train[i] * x_train[i] - self._alpha * self._w / self._epochs)
                     tr_err += 1
-                    tr_loss += self.soft_margin_loss(X_train[i], Y_train[i])
+                    tr_loss += self.soft_margin_loss(x_train[i], y_train[i])
                 self.history_w.append(self._w)
-            for i, x in enumerate(X_val):
-                val_loss += self.soft_margin_loss(X_val[i], Y_val[i])
-                val_err += (Y_val[i] * np.dot(self._w, X_val[i]) < 1).astype(int)
+            for i, x in enumerate(x_val):
+                val_loss += self.soft_margin_loss(x_val[i], y_val[i])
+                val_err += (y_val[i] * np.dot(self._w, x_val[i]) < 1).astype(int)
             if verbose:
-                print('epoch {}. Errors={}. Mean Hinge_loss={}' \
-                      .format(epoch, tr_err, tr_loss))
+                print('epoch {}. Errors={}. Mean Hinge_loss={}'.format(epoch, tr_err, tr_loss))
             train_errors.append(tr_err)
             val_errors.append(val_err)
             train_loss_epoch.append(tr_loss)
@@ -92,11 +91,11 @@ class CustomSVM(object):
         self.train_loss = np.array(train_loss_epoch)
         self.val_loss = np.array(val_loss_epoch)
 
-    def predict(self, X: np.array) -> np.array:
+    def predict(self, x: np.array) -> np.array:
         y_pred = []
-        X_extended = add_bias_feature(X)
-        for i in range(len(X_extended)):
-            y_pred.append(np.sign(np.dot(self._w, X_extended[i])))
+        x_extended = add_bias_feature(x)
+        for i in range(len(x_extended)):
+            y_pred.append(np.sign(np.dot(self._w, x_extended[i])))
         return np.array(y_pred)
 
     def hinge_loss(self, x, y):
