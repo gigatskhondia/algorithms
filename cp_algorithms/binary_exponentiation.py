@@ -1,5 +1,7 @@
 # UVa 1230 - MODEX
 # UVa 374 - Big Mod
+
+
 def binpow(a, b, m):
     a %= m
     res = 1
