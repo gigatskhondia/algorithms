@@ -1,4 +1,4 @@
-from CS.heapsort import max_heapify, parent
+from cs_basic.heapsort import max_heapify, parent
 
 
 def heap_maximum(arr):  # constant time
